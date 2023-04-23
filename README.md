@@ -6,6 +6,5 @@
 </a>
 <h1 align="center"> Tech Stack </h1>
 <p align="center"><img src="https://skillicons.dev/icons?i=html,css,js" /></p>
-<h1 align="center"> Some Screenshots </h1>
 
 
