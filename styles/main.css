@@ -35,7 +35,6 @@ body{
     align-items: center;
     align-content: space-between;
     justify-content: space-around; 
-    flex-wrap: wrap;
 }
 
 .board-menu{
@@ -66,8 +65,8 @@ body{
 
 .board-field{
     display: flex;
-    width: 195px;
-    height: 195px;
+    width: 193px;
+    height: 193px;
     background: var(--color1);
     align-items: center;
     justify-content: center; 
@@ -75,37 +74,41 @@ body{
 }
 
 .player-x{
-    width: 190px;
-    height: 190px;
+    width: 100%;
+    height: 100%;
     position: relative;
 }
 
 .player-x::before{
     content: '';
-    width: 190px;
-    height: 20px;
+    width: 90%;
+    height: 10%;
+    left: 3%;
+    top: 45%;
     background: var(--gradient1);
     border-radius: 20px 0px;
-    transform: translateY(85px) rotate(45deg);
+    transform: rotate(45deg);
     position: absolute;
     box-shadow: var(--shadow1);
 }
 
 .player-x::after{
     content: '';
-    width: 190px;
-    height: 20px;
+    width: 90%;
+    height: 10%;
+    left: 3%;
+    top: 45%;
     background: var(--gradient1);
     border-radius: 0px 20px;
-    transform: translateY(85px) rotate(-45deg);
+    transform: rotate(-45deg);
     position: absolute;
     box-shadow: var(--shadow1);
 }
 
 .player-o{
     display: flex;
-    width: 160px;
-    height: 160px;
+    width: 80%;
+    height: 80%;
     background: var(--gradient1);
     border-radius: 50%;
     align-items: center;
@@ -116,11 +119,32 @@ body{
 
 .player-o::before{
     content: '';
-    width: 120px;
-    height: 120px;
+    width: 75%;
+    height: 75%;
     background: var(--color1);
     border-radius: 50%;
     position: absolute;
+}
+
+@media only screen and (max-width: 700px){
+
+    :root{
+        --shadow1: 0px 0px 15px 5px #0e0e0e;
+    }
+
+    .board-fields-container{
+        width: 85vw;
+        height: 85vw;
+    }
+
+    .board-field{
+        width: 32%;
+        height: 32%;
+    }
+
+    .board-menu-container{
+        width: 85vw;
+    }
 }
 
 .anim-won-player{
