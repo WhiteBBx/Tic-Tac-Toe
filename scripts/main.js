@@ -1,6 +1,10 @@
+import { createBoardElement } from "./modules/domHelpers.js"
+
 function App(){
 
     let resetButton
+    let displayPlayerX
+    let displayPlayerO
     let boardMenuContainer
     let boardFieldsContainer
     let boardField
@@ -22,41 +26,14 @@ function App(){
 
     ]
 
-    function createBoardElement(elementName, parentName, className, fontAwesome){
-        
-        function createDiv(){
-
-            elementName = document.createElement('div')
-            elementName.classList.add(className)
-            parentName.appendChild(elementName)
-        }
-
-        function createIco(){
-
-            let ico = document.createElement('i')
-            ico.className = fontAwesome
-            elementName.appendChild(ico)
-        }
-
-        if(fontAwesome === undefined){
-            createDiv()
-        }
-        else{
-            createDiv()
-            createIco()
-        }
-
-        return elementName
-    }
-
     function createBoard(){
 
         boardMenuContainer = createBoardElement(boardMenuContainer, document.body, 'board-menu-container')
-        displayPlayerX = createBoardElement(resetButton, boardMenuContainer, 'board-menu', 'fa-solid fa-xmark')
+        displayPlayerX = createBoardElement(displayPlayerX, boardMenuContainer, 'board-menu', 'fa-solid fa-xmark')
         resetButton = createBoardElement(resetButton, boardMenuContainer, 'board-menu', 'fa-solid fa-rotate-right')
-        displayPlayerO = createBoardElement(resetButton, boardMenuContainer, 'board-menu', 'fa-regular fa-circle')
+        displayPlayerO = createBoardElement(displayPlayerO, boardMenuContainer, 'board-menu', 'fa-regular fa-circle')
         boardFieldsContainer = createBoardElement(boardFieldsContainer, document.body, 'board-fields-container')
-        for(i = 0; i < 9; i++){
+        for(let i = 0; i < 9; i++){
             boardField = createBoardElement(boardField, boardFieldsContainer, 'board-field')
         }
     }
@@ -108,7 +85,7 @@ function App(){
     function check(player){
 
         if(player.length > 2){
-            for(i = 0; i < 8; i++){
+            for(let i = 0; i < 8; i++){
                 if(player.includes(winingCombinations[i][0]) && 
                     player.includes(winingCombinations[i][1]) &&
                     player.includes(winingCombinations[i][2])){
@@ -196,7 +173,6 @@ function App(){
     }
 
     createBoard()
-    animateCurrentPlayer()
 
     resetButton.addEventListener('click', resetButtonEvent)
     resetButton.addEventListener('mouseover', () => { resetButton.classList.add('anim-reset-button') })

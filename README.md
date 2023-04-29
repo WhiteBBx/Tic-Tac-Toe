@@ -1,4 +1,3 @@
-
 <h1 align="center"> Tic Tac Toe </h1>
 <h3 align="center"> Simple Game - Try Demo </h3>
 <a href="https://whitebbx.github.io/Tic-Tac-Toe/">
