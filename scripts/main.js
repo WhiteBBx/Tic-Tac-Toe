@@ -2,18 +2,18 @@ import { createBoardElement } from "./modules/domHelpers.js"
 
 function App(){
 
-    let resetButton
-    let displayPlayerX
-    let displayPlayerO
-    let boardMenuContainer
-    let boardFieldsContainer
-    let boardField
-    let boardFieldsArray
-    let currentPlayerOnBoard
-    let currentPlayerClass = 'player-o'
-    let playerX = []
-    let playerO = []
-    let winingCombinations = [
+    this.resetButton
+    this.displayPlayerX
+    this.displayPlayerO
+    this.boardMenuContainer
+    this.boardFieldsContainer
+    this.boardField
+    this.boardFieldsArray
+    this.currentPlayerOnBoard
+    this.currentPlayerClass = 'player-o'
+    this.playerX = []
+    this.playerO = []
+    this.winingCombinations = [
 
         [0,1,2],
         [3,4,5],
@@ -26,73 +26,72 @@ function App(){
 
     ]
 
-    function createBoard(){
+    this.createBoard = function(){
 
-        boardMenuContainer = createBoardElement(boardMenuContainer, document.body, 'board-menu-container')
-        displayPlayerX = createBoardElement(displayPlayerX, boardMenuContainer, 'board-menu', 'fa-solid fa-xmark')
-        resetButton = createBoardElement(resetButton, boardMenuContainer, 'board-menu', 'fa-solid fa-rotate-right')
-        displayPlayerO = createBoardElement(displayPlayerO, boardMenuContainer, 'board-menu', 'fa-regular fa-circle')
-        boardFieldsContainer = createBoardElement(boardFieldsContainer, document.body, 'board-fields-container')
+        this.boardMenuContainer = createBoardElement(this.boardMenuContainer, document.body, 'board-menu-container')
+        this.displayPlayerX = createBoardElement(this.displayPlayerX, this.boardMenuContainer, 'board-menu', 'fa-solid fa-xmark')
+        this.resetButton = createBoardElement(this.resetButton, this.boardMenuContainer, 'board-menu', 'fa-solid fa-rotate-right')
+        this.displayPlayerO = createBoardElement(this.displayPlayerO, this.boardMenuContainer, 'board-menu', 'fa-regular fa-circle')
+        this.boardFieldsContainer = createBoardElement(this.boardFieldsContainer, document.body, 'board-fields-container')
         for(let i = 0; i < 9; i++){
-            boardField = createBoardElement(boardField, boardFieldsContainer, 'board-field')
+            this.boardField = createBoardElement(this.boardField, this.boardFieldsContainer, 'board-field')
         }
     }
 
-    function boardFieldEvent(e){
+    this.boardFieldEvent = function(e){
         
-        let boardFieldIndex = boardFieldsArray.indexOf(e.target)
+        console.log(this.boardFieldsArray)
 
-        currentPlayerClass = currentPlayerClass == 'player-x' ? 'player-o' : 'player-x'
+        this.boardFieldIndex = this.boardFieldsArray.indexOf(e.target)
+        this.currentPlayerClass = this.currentPlayerClass == 'player-x' ? 'player-o' : 'player-x'
+        this.currentPlayerOnBoard = createBoardElement(this.currentPlayerOnBoard, this.boardFieldsArray[boardFieldIndex], this.currentPlayerClass)
+        this.currentPlayerClass == 'player-x' ? this.playerX.push(boardFieldIndex) : this.playerO.push(boardFieldIndex)
 
-        currentPlayerOnBoard = createBoardElement(currentPlayerOnBoard, boardFieldsArray[boardFieldIndex], currentPlayerClass)
-
-        currentPlayerClass == 'player-x' ? playerX.push(boardFieldIndex) : playerO.push(boardFieldIndex)
-
-        animateCurrentPlayer()
-        animateShowPlayer()
-        animateWonPlayer(playerX)
-        animateWonPlayer(playerO)
-        removeEventFromEmptyFields()
+        this.animateCurrentPlayer()
+        this.animateShowPlayer()
+        this.animateWonPlayer(this.playerX)
+        this.animateWonPlayer(this.playerO)
+        this.removeEventFromEmptyFields()
     }
 
-    function resetButtonEvent(){
+    this.resetButtonEvent = function(){
 
-        resetButton.classList.add('anim-reset-button')
-        resetButton.style.animationIterationCount = 'infinite'
-        resetButton.style.color = 'var(--color4)'
+        this.resetButton.classList.add('anim-reset-button')
+        this.resetButton.style.animationIterationCount = 'infinite'
+        this.resetButton.style.color = 'var(--color4)'
 
-        if(check(playerX).won || check(playerO).won){
+        if(check(this.playerX).won || check(this.playerO).won){
 
-            boardFieldsContainer.addEventListener('animationiteration', () => {
+            this.boardFieldsContainer.addEventListener('animationiteration', () => {
 
-                boardFieldsArray.forEach((element) => {
+                this.boardFieldsArray.forEach((element) => {
                     if(element.hasChildNodes()){
                         element.firstChild.classList.remove('anim-won-player')
                     }
                 })
 
-                animateHidePlayer()
-                setTimeout(() => { window.location.reload() }, animateHidePlayer())
+                this.animateHidePlayer()
+                setTimeout(() => { window.location.reload() }, this.animateHidePlayer())
             })
         }
         else{
            
-            animateHidePlayer()
-            setTimeout(() => { window.location.reload() }, animateHidePlayer())
+            this.animateHidePlayer()
+            setTimeout(() => { window.location.reload() }, this.animateHidePlayer())
         }
     }
 
-    function check(player){
+    this.check = function(player){
 
         if(player.length > 2){
             for(let i = 0; i < 8; i++){
-                if(player.includes(winingCombinations[i][0]) && 
-                    player.includes(winingCombinations[i][1]) &&
-                    player.includes(winingCombinations[i][2])){
+                if(player.includes(this.winingCombinations[i][0]) && 
+                    player.includes(this.winingCombinations[i][1]) &&
+                    player.includes(this.winingCombinations[i][2])){
                         
                     return {
                         won: true,
-                        combination: [winingCombinations[i][0], winingCombinations[i][1], winingCombinations[i][2]]
+                        combination: [this.winingCombinations[i][0], this.winingCombinations[i][1], this.winingCombinations[i][2]]
                     }
                 }
             }
@@ -103,49 +102,49 @@ function App(){
         }
     }
 
-    function removeEventFromEmptyFields(){
+    this.removeEventFromEmptyFields = function(){
 
-        if(check(playerX).won || check(playerO).won){
-            boardFieldsArray.forEach((element) => {
+        if(this.check(this.playerX).won || this.check(this.playerO).won){
+            this.boardFieldsArray.forEach((element) => {
                 if(element.hasChildNodes() == false){
-                    element.removeEventListener('click', boardFieldEvent, {once: true})
+                    element.removeEventListener('click', this.boardFieldEvent, {once: true})
                 }
             })
         }
     }
 
-    function animateCurrentPlayer(){
+    this.animateCurrentPlayer = function(){
         
         let anime = 'anim-current-player'
 
-        if(check(playerX).won || check(playerO).won){
-            displayPlayerX.classList.remove(anime)
-            displayPlayerO.classList.remove(anime)
+        if(this.check(this.playerX).won || this.check(this.playerO).won){
+            this.displayPlayerX.classList.remove(anime)
+            this.displayPlayerO.classList.remove(anime)
         }
         else{
-            if(currentPlayerClass == 'player-o'){
-                displayPlayerX.classList.add(anime)
-                displayPlayerO.classList.remove(anime)
+            if(this.currentPlayerClass == 'player-o'){
+                this.displayPlayerX.classList.add(anime)
+                this.displayPlayerO.classList.remove(anime)
             }
             else{
-                displayPlayerO.classList.add(anime)
-                displayPlayerX.classList.remove(anime)
+                this.displayPlayerO.classList.add(anime)
+                this.displayPlayerX.classList.remove(anime)
             }
         }
     }
 
-    function animateShowPlayer(){
+    this.animateShowPlayer = function(){
 
         let anime = 'anim-show-player'
-        currentPlayerOnBoard.classList.add(anime)
-        currentPlayerOnBoard.addEventListener('animationend', (e) => { e.target.classList.remove(anime) })
+        this.currentPlayerOnBoard.classList.add(anime)
+        this.currentPlayerOnBoard.addEventListener('animationend', (e) => { e.target.classList.remove(anime) })
     }
 
-    function animateHidePlayer(){
+    this.animateHidePlayer = function(){
 
         let i = 100
 
-        boardFieldsArray.forEach((element) => {
+        this.boardFieldsArray.forEach((element) => {
                     
             if(element.hasChildNodes()){
                 setTimeout(() => {
@@ -158,11 +157,11 @@ function App(){
         return i + 400
     }
 
-    function animateWonPlayer(player){
+    this.animateWonPlayer = function(player){
 
         if(check(player).won){
-            boardFieldsArray.forEach((element) => {
-                if(element.hasChildNodes() && check(player).combination.includes(boardFieldsArray.indexOf(element))){
+            this.boardFieldsArray.forEach((element) => {
+                if(element.hasChildNodes() && check(player).combination.includes(this.boardFieldsArray.indexOf(element))){
                     element.firstChild.classList.remove('anim-show-player')
                     element.firstChild.classList.add('anim-won-player')
                 }
@@ -172,14 +171,19 @@ function App(){
         }
     }
 
-    createBoard()
+    this.render = function(){
 
-    resetButton.addEventListener('click', resetButtonEvent)
-    resetButton.addEventListener('mouseover', () => { resetButton.classList.add('anim-reset-button') })
-    resetButton.addEventListener('animationend', () => { resetButton.classList.remove('anim-reset-button') })
+        this.createBoard()
 
-    boardFieldsArray = [...document.querySelectorAll('.board-field')]
-    boardFieldsArray.forEach((element) => element.addEventListener('click', boardFieldEvent, {once: true}))
+        this.resetButton.addEventListener('click', this.resetButtonEvent)
+        this.resetButton.addEventListener('mouseover', () => { this.resetButton.classList.add('anim-reset-button') })
+        this.resetButton.addEventListener('animationend', () => { this.resetButton.classList.remove('anim-reset-button') })
+
+        this.boardFieldsArray = [...document.querySelectorAll('.board-field')]
+        this.boardFieldsArray.forEach((element) => element.addEventListener('click', this.boardFieldEvent, {once: true}))
+    }
 }
 
-App()
+const app = new App()
+
+app.render()
