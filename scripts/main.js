@@ -184,6 +184,90 @@ function App(){
     }
 }
 
-const app = new App()
+export class Game{
 
-app.render()
+    constructor(){
+
+        this.currentElement
+        this.boardFieldsArray
+        this.boardFieldIndex
+        this.playerX = []
+        this.playerO = []
+        this.winingCombinations = [
+
+            [0,1,2],
+            [3,4,5],
+            [6,7,8],
+            [0,3,6],
+            [1,4,7],
+            [2,5,8],
+            [0,4,8],
+            [2,4,6]
+    
+        ]
+    }
+
+    drawBoard(){
+
+        this.boardMenuContainer = createBoardElement(this.boardMenuContainer, document.body, 'board-menu-container')
+        this.displayPlayerX = createBoardElement(this.displayPlayerX, this.boardMenuContainer, 'board-menu', 'fa-solid fa-xmark')
+        this.resetButton = createBoardElement(this.resetButton, this.boardMenuContainer, 'board-menu', 'fa-solid fa-rotate-right')
+        this.displayPlayerO = createBoardElement(this.displayPlayerO, this.boardMenuContainer, 'board-menu', 'fa-regular fa-circle')
+        this.boardFieldsContainer = createBoardElement(this.boardFieldsContainer, document.body, 'board-fields-container')
+        for(let i = 0; i < 9; i++){
+            this.boardField = createBoardElement(this.boardField, this.boardFieldsContainer, 'board-field')
+        }
+    }
+
+    addEvents(){
+
+        this.boardFieldsArray = [...document.querySelectorAll('.board-field')]
+        this.boardFieldsArray.forEach((element) => element.addEventListener('click', (event) => this.drawPlayer(event), {once: true}))
+    }
+
+    removeEvents(){
+
+        this.boardFieldsArray.forEach((element) => {
+            if(element.hasChildNodes() == false){
+                element.removeEventListener('click', this.drawPlayer, {once: true})
+            }
+        })
+    }
+
+    wonPlayer(player){
+
+        if(player.length > 2){
+            for(let i = 0; i < 8; i++){
+                if(player.includes(this.winingCombinations[i][0]) && 
+                    player.includes(this.winingCombinations[i][1]) &&
+                    player.includes(this.winingCombinations[i][2])){
+                        
+                        console.log(`won ${player}`)
+                        this.removeEvents()
+                }
+            }
+        }
+    }
+
+    drawPlayer(event){
+
+        this.boardFieldIndex = this.boardFieldsArray.indexOf(event.target)
+        this.currentPlayerClass = this.currentPlayerClass == 'player-x' ? 'player-o' : 'player-x'
+        this.currentPlayerOnBoard = createBoardElement(this.currentPlayerOnBoard, this.boardFieldsArray[this.boardFieldIndex], this.currentPlayerClass)
+        this.currentPlayerClass == 'player-x' ? this.playerX.push(this.boardFieldIndex) : this.playerO.push(this.boardFieldIndex)
+
+        this.wonPlayer(this.playerX)
+        this.wonPlayer(this.playerO)
+
+        console.log(this.playerX)
+    }
+
+    render(){
+
+        this.drawBoard()
+        this.addEvents()
+    }
+}
+
+const game = new Game()
+game.render()
