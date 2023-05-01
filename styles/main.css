@@ -1,3 +1,5 @@
+/* Variables */
+
 :root{
     --color1: #1b1b1b;
     --color2: #ffffff;
@@ -126,6 +128,8 @@ body{
     position: absolute;
 }
 
+/* Responsive */
+
 @media only screen and (max-width: 700px){
 
     :root{
@@ -147,27 +151,29 @@ body{
     }
 }
 
-.anim-won-player{
-    animation: anim-won-player 3s ease infinite;
+/* Animations */
+
+.won-player{
+    animation: won-player 3s ease infinite;
 }
 
-.anim-current-player{
-    animation: anim-current-player 0.7s ease-in-out forwards;
+.current-player{
+    animation: current-player 0.7s ease-in-out forwards;
 }
 
-.anim-reset-button{
-    animation: anim-reset-button 1s ease forwards;
+.reset-button{
+    animation: reset-button 1s ease forwards;
 }
 
-.anim-show-player{
-    animation: anim-show-player 0.7s ease forwards;
+.show-player{
+    animation: show-player 0.7s ease forwards;
 }
 
-.anim-hide-player{
-    animation: anim-show-player reverse 0.7s ease forwards;
+.hide-player{
+    animation: show-player reverse 0.7s ease forwards;
 }
 
-@keyframes anim-show-player{
+@keyframes show-player{
     0% {
         transform: scale(0);
     }
@@ -177,7 +183,7 @@ body{
 }
 
 
-@keyframes anim-won-player{
+@keyframes won-player{
     0%, 100% {
         transform: rotate3d(0, 0, 0, 0deg) scale(1);
     }
@@ -186,7 +192,7 @@ body{
     }    
 }
 
-@keyframes anim-current-player{
+@keyframes current-player{
     0%{
         transform: translateY(0px);
     }
@@ -207,7 +213,7 @@ body{
     }    
 }
 
-@keyframes anim-reset-button{
+@keyframes reset-button{
     0% {
         transform: rotate(0deg);
     }

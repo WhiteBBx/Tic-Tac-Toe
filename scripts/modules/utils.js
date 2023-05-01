@@ -1,4 +1,4 @@
-export function createBoardElement(elementName, parentName, className, fontAwesome){
+export function createDivElement(elementName, parentName, className, fontAwesome){
     
     function createDiv(){
 
