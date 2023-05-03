@@ -1,3 +1,3 @@
-import { game } from "./modules/board.js"
+import { board as game } from "./modules/board.js"
 
 game.render()

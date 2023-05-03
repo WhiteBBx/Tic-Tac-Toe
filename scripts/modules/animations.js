@@ -1,37 +1,37 @@
-import { game } from "./board.js";
+import { board } from "./board.js";
 
 export class Animate{
-
+    
     showPlayer(){
 
-        game.currentPlayerOnBoard.classList.add('show-player')
-        game.currentPlayerOnBoard.addEventListener('animationend', (e) => { e.target.classList.remove('show-player') })
+        board.currentPlayerOnBoard.classList.add('show-player')
+        board.currentPlayerOnBoard.addEventListener('animationend', (e) => { e.target.classList.remove('show-player') })
     }
 
     wonPlayer(){
         
-        if(game.won.combination.length){
+        if(board.won.combination.length){
             for(let i = 0; i < 3; i++){
-                game.boardFieldsArray[game.won.combination[i]].firstChild.classList.remove('show-player')
-                game.boardFieldsArray[game.won.combination[i]].firstChild.classList.add('won-player')
+                board.fieldsArray[board.won.combination[i]].firstChild.classList.remove('show-player')
+                board.fieldsArray[board.won.combination[i]].firstChild.classList.add('won-player')
             }
         }
     }
 
     currentPlayer(){
 
-        if(game.won.combination.length){
-            game.displayPlayerX.classList.remove('current-player')
-            game.displayPlayerO.classList.remove('current-player')
+        if(board.won.combination.length){
+            board.displayPlayerX.classList.remove('current-player')
+            board.displayPlayerO.classList.remove('current-player')
         }
         else{
-            if(game.currentPlayerClass == 'player-o'){
-                game.displayPlayerX.classList.add('current-player')
-                game.displayPlayerO.classList.remove('current-player')
+            if(board.currentPlayerClass == 'player-o'){
+                board.displayPlayerX.classList.add('current-player')
+                board.displayPlayerO.classList.remove('current-player')
             }
             else{
-                game.displayPlayerO.classList.add('current-player')
-                game.displayPlayerX.classList.remove('current-player')
+                board.displayPlayerO.classList.add('current-player')
+                board.displayPlayerX.classList.remove('current-player')
             }
         }
     }
@@ -39,7 +39,7 @@ export class Animate{
     hidePlayer(){
 
         let i = 100
-        game.boardFieldsArray.forEach((element) => {
+        board.fieldsArray.forEach((element) => {
                     
             if(element.hasChildNodes()){
                 setTimeout(() => {
