@@ -4,34 +4,34 @@ export class Animate{
     
     showPlayer(){
 
-        board.currentPlayerOnBoard.classList.add('show-player')
-        board.currentPlayerOnBoard.addEventListener('animationend', (e) => { e.target.classList.remove('show-player') })
+        board.player.current.field.classList.add('show-player')
+        board.player.current.field.addEventListener('animationend', (e) => { e.target.classList.remove('show-player') })
     }
 
     wonPlayer(){
         
-        if(board.won.combination.length){
+        if(board.player.winner.combination.length){
             for(let i = 0; i < 3; i++){
-                board.fieldsArray[board.won.combination[i]].firstChild.classList.remove('show-player')
-                board.fieldsArray[board.won.combination[i]].firstChild.classList.add('won-player')
+                board.fieldsArray[board.player.winner.combination[i]].firstChild.classList.remove('show-player')
+                board.fieldsArray[board.player.winner.combination[i]].firstChild.classList.add('won-player')
             }
         }
     }
 
     currentPlayer(){
 
-        if(board.won.combination.length){
-            board.displayPlayerX.classList.remove('current-player')
-            board.displayPlayerO.classList.remove('current-player')
+        if(board.player.winner.combination.length){
+            board.player.x.display.classList.remove('current-player')
+            board.player.o.display.classList.remove('current-player')
         }
         else{
             if(board.currentPlayerClass == 'player-o'){
-                board.displayPlayerX.classList.add('current-player')
-                board.displayPlayerO.classList.remove('current-player')
+                board.player.x.display.classList.add('current-player')
+                board.player.o.display.classList.remove('current-player')
             }
             else{
-                board.displayPlayerO.classList.add('current-player')
-                board.displayPlayerX.classList.remove('current-player')
+                board.player.o.display.classList.add('current-player')
+                board.player.x.display.classList.remove('current-player')
             }
         }
     }

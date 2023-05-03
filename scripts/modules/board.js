@@ -6,29 +6,40 @@ export class Board{
     constructor(){
 
         this.player = { 
-            x: [], 
-            o: [] 
+            x: {
+                pos: [],
+                class: 'player-x',
+                display: undefined,
+            }, 
+            o: {
+                pos: [],
+                class: 'player-o',
+                display: undefined,
+            },
+            current: {
+                class: 'player-x',
+                field: undefined
+            },
+            winner: {
+                is: undefined,
+                combination: []
+            }
         }
-        this.won = {
-            combination: [],
-            player: undefined
-        }
-        this.currentPlayerClass = 'player-x'
         this.winingCombinations = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ]
     }
 
     drawBoard(){
 
-        this.boardMenuContainer = createDivElement(this.boardMenuContainer, document.body, 'board-menu-container')
-        this.displayPlayerX = createDivElement(this.displayPlayerX, this.boardMenuContainer, 'board-menu', 'fa-solid fa-xmark')
-        this.resetButton = createDivElement(this.resetButton, this.boardMenuContainer, 'board-menu', 'fa-solid fa-rotate-right')
-        this.displayPlayerO = createDivElement(this.displayPlayerO, this.boardMenuContainer, 'board-menu', 'fa-regular fa-circle')
-        this.boardFieldsContainer = createDivElement(this.boardFieldsContainer, document.body, 'board-fields-container')
+        this.menuContainer = createDivElement(this.menuContainer, document.body, 'board-menu-container')
+        this.player.x.display = createDivElement(this.player.x.display, this.menuContainer, 'board-menu', 'fa-solid fa-xmark')
+        this.resetButton = createDivElement(this.resetButton, this.menuContainer, 'board-menu', 'fa-solid fa-rotate-right')
+        this.player.o.display = createDivElement(this.player.o.display, this.menuContainer, 'board-menu', 'fa-regular fa-circle')
+        this.fieldsContainer = createDivElement(this.fieldsContainer, document.body, 'board-fields-container')
         for(let i = 0; i < 9; i++){
-            this.boardField = createDivElement(this.boardField, this.boardFieldsContainer, 'board-field')
+            this.boardField = createDivElement(this.boardField, this.fieldsContainer, 'board-field')
         }
 
-        this.currentPlayerClass == 'player-x' ? this.displayPlayerX.classList.add('current-player') : this.displayPlayerO.classList.add('current-player')
+        this.player.current.class == this.player.x.class ? this.player.x.display.classList.add('current-player') : this.player.o.display.classList.add('current-player')
     }
 
     addResetEvent(){
@@ -37,8 +48,8 @@ export class Board{
         this.resetButton.style.animationIterationCount = 'infinite'
         this.resetButton.style.color = 'var(--color4)'
 
-        if(this.won.combination.length){
-            this.boardFieldsContainer.addEventListener('animationiteration', () => {
+        if(this.player.winner.combination.length){
+            this.fieldsContainer.addEventListener('animationiteration', () => {
                 this.fieldsArray.forEach((element) => {
                     if(element.hasChildNodes()){
                         element.firstChild.classList.remove('won-player')
@@ -82,7 +93,7 @@ export class Board{
 
     checkPlayer(){
 
-        let player = this.player.x
+        let player = this.player.x.pos
         for(let i = 0; i < 2; i++){
 
             if(player.length > 2){
@@ -91,22 +102,22 @@ export class Board{
                         player.includes(this.winingCombinations[i][1]) &&
                         player.includes(this.winingCombinations[i][2])){
 
-                            this.won.combination = [this.winingCombinations[i][0], this.winingCombinations[i][1], this.winingCombinations[i][2]]
-                            this.won.player = this.currentPlayerClass
+                            this.player.winner.combination = [this.winingCombinations[i][0], this.winingCombinations[i][1], this.winingCombinations[i][2]]
+                            this.player.winner.is = this.player.current.class
                             this.removeBoardEvents()
                     }
                 }
             }
-            player = this.player.o
+            player = this.player.o.pos
         }
     }
 
     drawPlayer(event){
 
         this.fieldIndex = this.fieldsArray.indexOf(event.target)
-        this.currentPlayerOnBoard = createDivElement(this.currentPlayerOnBoard, this.fieldsArray[this.fieldIndex], this.currentPlayerClass)
-        this.currentPlayerClass == 'player-x' ? this.player.x.push(this.fieldIndex) : this.player.o.push(this.fieldIndex)
-        this.currentPlayerClass = this.currentPlayerClass == 'player-x' ? 'player-o' : 'player-x'
+        this.player.current.field = createDivElement(this.player.current.field, this.fieldsArray[this.fieldIndex], this.player.current.class)
+        this.player.current.class == this.player.x.class ? this.player.x.pos.push(this.fieldIndex) : this.player.o.pos.push(this.fieldIndex)
+        this.player.current.class = this.player.current.class == this.player.x.class ? this.player.o.class : this.player.x.class
 
         this.checkPlayer()
         animate.showPlayer()
