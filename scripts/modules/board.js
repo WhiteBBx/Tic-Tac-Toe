@@ -1,10 +1,9 @@
 import { createDivElement } from "./utils.js"
 import { animate } from "./animations.js"
 
-export class Board{
+export class Board {
 
-    constructor(){
-
+    constructor(player){
         this.player = { 
             x: {
                 pos: [],
@@ -17,7 +16,7 @@ export class Board{
                 display: undefined,
             },
             current: {
-                class: 'player-x',
+                class: player == 'x' ? 'player-x' : 'player-o',
                 field: undefined
             },
             winner: {
@@ -55,15 +54,11 @@ export class Board{
                         element.firstChild.classList.remove('won-player')
                     }
                 })
-
-                animate.hidePlayer()
-                setTimeout(() => { window.location.reload() }, animate.hidePlayer())
+                setTimeout(() => { window.location.reload() }, animate.hidePlayer(this.fieldsArray))
             })
         }
         else{
-           
-            animate.hidePlayer()
-            setTimeout(() => { window.location.reload() }, animate.hidePlayer())
+            setTimeout(() => { window.location.reload() }, animate.hidePlayer(this.fieldsArray))
         }
     }
 
@@ -120,9 +115,9 @@ export class Board{
         this.player.current.class = this.player.current.class == this.player.x.class ? this.player.o.class : this.player.x.class
 
         this.checkPlayer()
-        animate.showPlayer()
-        animate.currentPlayer()
-        animate.wonPlayer()
+        animate.showPlayer(this.player)
+        animate.currentPlayer(this.player)
+        animate.wonPlayer(this.player, this.fieldsArray)
     }
 
     render(){
@@ -132,5 +127,3 @@ export class Board{
         this.checkResetEvents()
     }
 }
-
-export const board = new Board()

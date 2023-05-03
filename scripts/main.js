@@ -1,3 +1,5 @@
-import { board as game } from "./modules/board.js"
+import { Board } from "./modules/board.js"
 
-game.render()
+const newGame = new Board('x')
+
+newGame.render()
