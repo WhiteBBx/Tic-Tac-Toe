@@ -19,18 +19,12 @@ export const animate = {
     currentPlayer(player){
     
         if(player.winner.combination.length){
-            player.x.display.classList.remove('current-player')
-            player.o.display.classList.remove('current-player')
+            player.x.icon.classList.remove('current-player')
+            player.o.icon.classList.remove('current-player')
         }
         else{
-            if(player.current.class == player.o.class){
-                player.x.display.classList.add('current-player')
-                player.o.display.classList.remove('current-player')
-            }
-            else{
-                player.o.display.classList.add('current-player')
-                player.x.display.classList.remove('current-player')
-            }
+            player.current.class == player.o.class ? player.o.icon.classList.add('current-player') : player.x.icon.classList.add('current-player')
+            player.current.class == player.o.class ? player.x.icon.classList.remove('current-player') : player.o.icon.classList.remove('current-player')
         }
     },
     

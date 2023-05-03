@@ -1,19 +1,21 @@
 import { createDivElement } from "./utils.js"
 import { animate } from "./animations.js"
+import { theme } from "./theme.js"
 
 export class Board {
 
     constructor(player){
+
         this.player = { 
             x: {
                 pos: [],
                 class: 'player-x',
-                display: undefined,
+                icon: undefined,
             }, 
             o: {
                 pos: [],
                 class: 'player-o',
-                display: undefined,
+                icon: undefined,
             },
             current: {
                 class: player == 'x' ? 'player-x' : 'player-o',
@@ -29,16 +31,17 @@ export class Board {
 
     drawBoard(){
 
-        this.menuContainer = createDivElement(this.menuContainer, document.body, 'board-menu-container')
-        this.player.x.display = createDivElement(this.player.x.display, this.menuContainer, 'board-menu', 'fa-solid fa-xmark')
-        this.resetButton = createDivElement(this.resetButton, this.menuContainer, 'board-menu', 'fa-solid fa-rotate-right')
-        this.player.o.display = createDivElement(this.player.o.display, this.menuContainer, 'board-menu', 'fa-regular fa-circle')
-        this.fieldsContainer = createDivElement(this.fieldsContainer, document.body, 'board-fields-container')
+        theme.render()
+        this.menuContainer = createDivElement(this.menuContainer, document.body, 'menu-container')
+        this.player.x.icon = createDivElement(this.player.x.icon, this.menuContainer, 'menu-icon', 'close')
+        this.resetButton = createDivElement(this.resetButton, this.menuContainer, 'menu-icon', 'rotate_right')
+        this.player.o.icon = createDivElement(this.player.o.icon, this.menuContainer, 'menu-icon', 'radio_button_unchecked')
+        this.fieldsContainer = createDivElement(this.fieldsContainer, document.body, 'fields-container')
         for(let i = 0; i < 9; i++){
             this.boardField = createDivElement(this.boardField, this.fieldsContainer, 'board-field')
         }
 
-        this.player.current.class == this.player.x.class ? this.player.x.display.classList.add('current-player') : this.player.o.display.classList.add('current-player')
+        this.player.current.class == this.player.x.class ? this.player.x.icon.classList.add('current-player') : this.player.o.icon.classList.add('current-player')
     }
 
     addResetEvent(){

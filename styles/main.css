@@ -29,16 +29,25 @@ body{
     flex-direction: column;
 }
 
-.board-menu-container{
+.menu-container{
     display: flex;
-    width: 600px;
+    width: 100vw;
     height: 100px;
     align-items: center;
-    align-content: space-between;
-    justify-content: space-around; 
+    justify-content: center; 
+    gap: 150px;
 }
 
-.board-menu{
+.theme-container{
+    display: flex;
+    width: 100vw;
+    height: 100px;
+    padding: 0 200px 0 0;
+    align-items: center;
+    justify-content: end; 
+}
+
+.menu-icon{
     display: flex;
     width: 50px;
     height: 50px;
@@ -54,7 +63,11 @@ body{
     position: relative;
 }
 
-.board-fields-container{
+.menu-icon.active{
+    color: var(--color4);
+}
+
+.fields-container{
     display: flex;
     width: 600px;
     height: 600px;
@@ -135,17 +148,17 @@ body{
         --shadow1: 0px 0px 15px 5px #0e0e0e;
     }
 
-    .board-fields-container{
+    .fields-container{
         width: 85vw;
         height: 85vw;
     }
 
-    .board-menu-container{
-        width: 85vw;
+    .menu-container{
         height: 14vw;
+        gap: 18vw;
     }
 
-    .board-menu{
+    .menu-icon{
         width: 10vw;
         height: 10vw;
         font-size: 5.5vw;

@@ -1,4 +1,4 @@
-export function createDivElement(elementName, parentName, className, fontAwesome){
+export function createDivElement(elementName, parentName, className, icon, out){
     
     function createDiv(){
 
@@ -10,11 +10,13 @@ export function createDivElement(elementName, parentName, className, fontAwesome
     function createIco(){
 
         let ico = document.createElement('i')
-        ico.className = fontAwesome
+        if(out === undefined) ico.className = 'material-icons' 
+        else if(out == 'out') ico.className = 'material-symbols-outlined'
+        ico.textContent = icon
         elementName.appendChild(ico)
     }
 
-    if(fontAwesome === undefined){
+    if(icon === undefined){
         createDiv()
     }
     else{
