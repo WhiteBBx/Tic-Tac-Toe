@@ -1,10 +1,10 @@
-export const animate = {
+export class Animate {
 
     showPlayer(player){
 
         player.current.field.classList.add('show-player')
         player.current.field.addEventListener('animationend', (e) => { e.target.classList.remove('show-player') })
-    },
+    }
     
     wonPlayer(player, fieldsArray){
         
@@ -14,7 +14,7 @@ export const animate = {
                 fieldsArray[player.winner.combination[i]].firstChild.classList.add('won-player')
             }
         }
-    },
+    }
     
     currentPlayer(player){
     
@@ -26,7 +26,7 @@ export const animate = {
             player.current.class == player.o.class ? player.o.icon.classList.add('current-player') : player.x.icon.classList.add('current-player')
             player.current.class == player.o.class ? player.x.icon.classList.remove('current-player') : player.o.icon.classList.remove('current-player')
         }
-    },
+    }
     
     hidePlayer(fieldsArray){
     

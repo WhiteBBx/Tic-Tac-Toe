@@ -26,3 +26,9 @@ export function createDivElement(elementName, parentName, className, icon, out){
 
     return elementName
 }
+
+export function changeColor(selector ,variable, color){
+
+    let element = document.querySelector(selector)
+    element.style.setProperty(variable, color)
+}

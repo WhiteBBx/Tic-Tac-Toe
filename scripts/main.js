@@ -1,4 +1,4 @@
-import { Board } from "./modules/board.js"
+import { Board } from "./modules/Board.js"
 
 const newGame = new Board('x')
 

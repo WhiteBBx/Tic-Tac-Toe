@@ -1,6 +1,9 @@
-import { createDivElement } from "./utils.js"
-import { animate } from "./animations.js"
-import { theme } from "./theme.js"
+import { createDivElement } from "./Utils.js"
+import { Animate } from "./Animations.js"
+import { LightMode } from "./LightMode.js"
+
+let animate = new Animate()
+let mode = new LightMode()
 
 export class Board {
 
@@ -31,11 +34,11 @@ export class Board {
 
     drawBoard(){
 
-        theme.render()
+        mode.render()
         this.menuContainer = createDivElement(this.menuContainer, document.body, 'menu-container')
-        this.player.x.icon = createDivElement(this.player.x.icon, this.menuContainer, 'menu-icon', 'close')
-        this.resetButton = createDivElement(this.resetButton, this.menuContainer, 'menu-icon', 'rotate_right')
-        this.player.o.icon = createDivElement(this.player.o.icon, this.menuContainer, 'menu-icon', 'radio_button_unchecked')
+        this.player.x.icon = createDivElement(this.player.x.icon, this.menuContainer, 'icon', 'close')
+        this.resetButton = createDivElement(this.resetButton, this.menuContainer, 'icon', 'rotate_right')
+        this.player.o.icon = createDivElement(this.player.o.icon, this.menuContainer, 'icon', 'radio_button_unchecked')
         this.fieldsContainer = createDivElement(this.fieldsContainer, document.body, 'fields-container')
         for(let i = 0; i < 9; i++){
             this.boardField = createDivElement(this.boardField, this.fieldsContainer, 'board-field')
@@ -47,8 +50,7 @@ export class Board {
     addResetEvent(){
 
         this.resetButton.classList.add('reset-button')
-        this.resetButton.style.animationIterationCount = 'infinite'
-        this.resetButton.style.color = 'var(--color4)'
+        this.resetButton.classList.add('active')
 
         if(this.player.winner.combination.length){
             this.fieldsContainer.addEventListener('animationiteration', () => {
@@ -69,7 +71,7 @@ export class Board {
 
         this.resetButton.addEventListener('click', (event) => this.addResetEvent(event))
         this.resetButton.addEventListener('mouseover', () => { this.resetButton.classList.add('reset-button') })
-        this.resetButton.addEventListener('animationend', () => { this.resetButton.classList.remove('reset-button') })
+        this.resetButton.addEventListener('animationiteration', () => { this.resetButton.classList.remove('reset-button') })
     }
 
     addBoardEvents(){
