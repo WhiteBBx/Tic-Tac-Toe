@@ -199,7 +199,7 @@ body{
 }
 
 .reset-button{
-    animation: reset-button 1s ease infinite;
+    animation: reset-button 1s ease forwards;
 }
 
 .show-player{

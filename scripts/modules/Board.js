@@ -1,9 +1,11 @@
 import { createDivElement } from "./Utils.js"
 import { Animate } from "./Animations.js"
 import { LightMode } from "./LightMode.js"
+import { Menu } from "./Menu.js"
 
-let animate = new Animate()
 let mode = new LightMode()
+let menu = new Menu()
+let animate = new Animate()
 
 export class Board {
 
@@ -13,19 +15,19 @@ export class Board {
             x: {
                 pos: [],
                 class: 'player-x',
-                icon: undefined,
+                icon: null
             }, 
             o: {
                 pos: [],
                 class: 'player-o',
-                icon: undefined,
+                icon: null
             },
             current: {
                 class: player == 'x' ? 'player-x' : 'player-o',
-                field: undefined
+                field: null
             },
             winner: {
-                is: undefined,
+                is: null,
                 combination: []
             }
         }
@@ -35,20 +37,20 @@ export class Board {
     drawBoard(){
 
         mode.render()
+        
         this.menuContainer = createDivElement(this.menuContainer, document.body, 'menu-container')
         this.player.x.icon = createDivElement(this.player.x.icon, this.menuContainer, 'icon', 'close')
         this.resetButton = createDivElement(this.resetButton, this.menuContainer, 'icon', 'rotate_right')
         this.player.o.icon = createDivElement(this.player.o.icon, this.menuContainer, 'icon', 'radio_button_unchecked')
         this.fieldsContainer = createDivElement(this.fieldsContainer, document.body, 'fields-container')
-        for(let i = 0; i < 9; i++){
-            this.boardField = createDivElement(this.boardField, this.fieldsContainer, 'board-field')
-        }
+        for(let i = 0; i < 9; i++){ this.boardField = createDivElement(this.boardField, this.fieldsContainer, 'board-field') }
 
         this.player.current.class == this.player.x.class ? this.player.x.icon.classList.add('current-player') : this.player.o.icon.classList.add('current-player')
     }
 
     addResetEvent(){
 
+        this.resetButton.style.animation = 'reset-button 0.5s linear infinite'
         this.resetButton.classList.add('reset-button')
         this.resetButton.classList.add('active')
 
@@ -69,15 +71,15 @@ export class Board {
 
     checkResetEvents(){
 
-        this.resetButton.addEventListener('click', (event) => this.addResetEvent(event))
+        this.resetButton.addEventListener('click', (e) => this.addResetEvent(e))
         this.resetButton.addEventListener('mouseover', () => { this.resetButton.classList.add('reset-button') })
-        this.resetButton.addEventListener('animationiteration', () => { this.resetButton.classList.remove('reset-button') })
+        this.resetButton.addEventListener('animationend', () => { this.resetButton.classList.remove('reset-button') })
     }
 
-    addBoardEvents(){
+    checkBoardEvents(){
 
         this.fieldsArray = [...document.querySelectorAll('.board-field')]
-        this.fieldsArray.forEach((element) => element.addEventListener('click', (event) => this.drawPlayer(event), {once: true}))
+        this.fieldsArray.forEach((element) => element.addEventListener('click', (e) => this.drawPlayer(e), {once: true}))
     }
 
     removeBoardEvents(){
@@ -112,9 +114,9 @@ export class Board {
         }
     }
 
-    drawPlayer(event){
+    drawPlayer(e){
 
-        this.fieldIndex = this.fieldsArray.indexOf(event.target)
+        this.fieldIndex = this.fieldsArray.indexOf(e.target)
         this.player.current.field = createDivElement(this.player.current.field, this.fieldsArray[this.fieldIndex], this.player.current.class)
         this.player.current.class == this.player.x.class ? this.player.x.pos.push(this.fieldIndex) : this.player.o.pos.push(this.fieldIndex)
         this.player.current.class = this.player.current.class == this.player.x.class ? this.player.o.class : this.player.x.class
@@ -126,9 +128,9 @@ export class Board {
     }
 
     render(){
-
+        
         this.drawBoard()
-        this.addBoardEvents()
+        this.checkBoardEvents()
         this.checkResetEvents()
     }
 }

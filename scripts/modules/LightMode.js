@@ -8,7 +8,7 @@ export class LightMode {
         else this.current = localStorage.getItem('Mode')
     }
 
-    loadColors(){
+    readModeButtonColors(){
 
         this.current == 'light' ? changeColor(':root','--color1', '#e9e9e9') : changeColor(':root','--color1', '#1b1b1b')
         this.current == 'light' ? changeColor(':root','--color2', '#1b1b1b') : changeColor(':root','--color2', '#e9e9e9')
@@ -32,7 +32,7 @@ export class LightMode {
         this.current = this.current == 'light' ? 'dark' : 'light'
         localStorage.setItem('Mode', this.current)
         this.animateModeButton()
-        this.loadColors()
+        this.readModeButtonColors()
     }
 
     checkModeButtonEvent(){
@@ -44,7 +44,7 @@ export class LightMode {
 
         this.drawModeButton()
         this.animateModeButton()
-        this.loadColors()
+        this.readModeButtonColors()
         this.checkModeButtonEvent()
     }
 }
