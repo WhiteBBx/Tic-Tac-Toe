@@ -27,7 +27,6 @@ body{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    overflow: hidden;
     transition: background 1s ease-in-out;
 }
 
@@ -48,7 +47,7 @@ body{
     display: flex;
     width: 100vw;
     height: 100px;
-    padding: 0 200px 0 0;
+    margin: 0 200px 0 0;
     align-items: center;
     justify-content: end; 
 }
@@ -156,7 +155,7 @@ body{
 
     .mode-container{
         justify-content: center;
-        padding: 0
+        margin: 0
     }
 }
 

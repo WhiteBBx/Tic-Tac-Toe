@@ -15,12 +15,10 @@ export class Board {
             x: {
                 pos: [],
                 class: 'player-x',
-                icon: null
             }, 
             o: {
                 pos: [],
                 class: 'player-o',
-                icon: null
             },
             current: {
                 class: player == 'x' ? 'player-x' : 'player-o',
@@ -37,58 +35,42 @@ export class Board {
     drawBoard(){
 
         mode.render()
-        
-        this.menuContainer = createDivElement(this.menuContainer, document.body, 'menu-container')
-        this.player.x.icon = createDivElement(this.player.x.icon, this.menuContainer, 'icon', 'close')
-        this.resetButton = createDivElement(this.resetButton, this.menuContainer, 'icon', 'rotate_right')
-        this.player.o.icon = createDivElement(this.player.o.icon, this.menuContainer, 'icon', 'radio_button_unchecked')
+        menu.render()
         this.fieldsContainer = createDivElement(this.fieldsContainer, document.body, 'fields-container')
         for(let i = 0; i < 9; i++){ this.boardField = createDivElement(this.boardField, this.fieldsContainer, 'board-field') }
-
-        this.player.current.class == this.player.x.class ? this.player.x.icon.classList.add('current-player') : this.player.o.icon.classList.add('current-player')
     }
 
-    addResetEvent(){
+    checkResetEvent(){
 
-        this.resetButton.style.animation = 'reset-button 0.5s linear infinite'
-        this.resetButton.classList.add('reset-button')
-        this.resetButton.classList.add('active')
-
-        if(this.player.winner.combination.length){
-            this.fieldsContainer.addEventListener('animationiteration', () => {
-                this.fieldsArray.forEach((element) => {
-                    if(element.hasChildNodes()){
-                        element.firstChild.classList.remove('won-player')
-                    }
+        menu.resetButton.addEventListener('click', () => { 
+            menu.addResetEvent()
+            if(this.player.winner.combination.length){
+                this.fieldsContainer.addEventListener('animationiteration', () => {
+                    this.fieldsArray.forEach((element) => {
+                        if(element.hasChildNodes()){
+                            element.firstChild.classList.remove('won-player')
+                        }
+                    })
+                    setTimeout(() => { window.location.reload() }, animate.hidePlayer(this.fieldsArray))
                 })
+            }
+            else{
                 setTimeout(() => { window.location.reload() }, animate.hidePlayer(this.fieldsArray))
-            })
-        }
-        else{
-            setTimeout(() => { window.location.reload() }, animate.hidePlayer(this.fieldsArray))
-        }
-    }
-
-    checkResetEvents(){
-
-        this.resetButton.addEventListener('click', (e) => this.addResetEvent(e))
-        this.resetButton.addEventListener('mouseover', () => { this.resetButton.classList.add('reset-button') })
-        this.resetButton.addEventListener('animationend', () => { this.resetButton.classList.remove('reset-button') })
+            }
+        })
     }
 
     checkBoardEvents(){
 
         this.fieldsArray = [...document.querySelectorAll('.board-field')]
-        this.fieldsArray.forEach((element) => element.addEventListener('click', (e) => this.drawPlayer(e), {once: true}))
+        this.fieldsArray.forEach((element) => element.addEventListener('click', this.drawPlayer, {once: true}))
     }
 
     removeBoardEvents(){
 
         this.fieldsArray.forEach((element) => {
             if(element.hasChildNodes() == false){
-                element.replaceWith(element.cloneNode(true))
-                // Can't remove event by =>
-                // element.removeEventListener('click', this.drawPlayer, {once: true})
+                element.removeEventListener('click', this.drawPlayer, {once: true})
             }
         })
     }
@@ -114,7 +96,7 @@ export class Board {
         }
     }
 
-    drawPlayer(e){
+    drawPlayer = (e) =>{
 
         this.fieldIndex = this.fieldsArray.indexOf(e.target)
         this.player.current.field = createDivElement(this.player.current.field, this.fieldsArray[this.fieldIndex], this.player.current.class)
@@ -123,14 +105,13 @@ export class Board {
 
         this.checkPlayer()
         animate.showPlayer(this.player)
-        animate.currentPlayer(this.player)
         animate.wonPlayer(this.player, this.fieldsArray)
     }
 
     render(){
         
         this.drawBoard()
+        this.checkResetEvent()
         this.checkBoardEvents()
-        this.checkResetEvents()
     }
 }
