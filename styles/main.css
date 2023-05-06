@@ -28,6 +28,7 @@ body{
     justify-content: center;
     flex-direction: column;
     overflow: hidden;
+    transition: background 1s ease-in-out;
 }
 
 .material-icons, .material-symbols-outlined{
@@ -52,16 +53,21 @@ body{
     justify-content: end; 
 }
 
+.mode-container .icon:hover{
+    color: var(--color4);
+    transition: color 1s ease-in-out;
+}
+
 .icon{
     display: flex;
     width: 50px;
     height: 50px;
     color: var(--color2);
-    background: var(--color1);
     align-items: center;
     justify-content: center;
     cursor: pointer;
     position: relative;
+    transition: color 1s ease-in-out;
 }
 
 .icon.active{
@@ -86,6 +92,7 @@ body{
     align-items: center;
     justify-content: center; 
     cursor: pointer;
+    transition: background 1s ease-in-out;
 }
 
 .player-x{
@@ -140,6 +147,7 @@ body{
     border-radius: 50%;
     position: absolute;
     box-shadow: inset var(--shadow1);
+    transition: background 1s ease-in-out;
 }
 
 /* Responsive */
@@ -202,6 +210,10 @@ body{
     animation: show-player reverse 0.7s ease forwards;
 }
 
+.show-mode{
+    animation: show-mode 1s ease-in-out forwards;
+}
+
 @keyframes show-player{
     0% {
         transform: scale(0);
@@ -234,11 +246,11 @@ body{
     }
     75% {
         color: var(--color4);
-        transform: translateY(-10px) rotate(-5deg);;
+        transform: translateY(-10px) rotate(-5deg);
     }    
     100% {
         color: var(--color4);
-        transform: translateY(0px) rotate(0deg);;
+        transform: translateY(0px) rotate(0deg);
     }    
 }
 
@@ -250,5 +262,16 @@ body{
         transform: rotate(360deg);
     }
     
+}
+
+@keyframes show-mode {
+    0% {
+        color: var(--color1);
+        transform: translateY(-200px) rotate(90deg);
+    }
+    100% {
+        color: var(--color2);
+        transform: translateY(0) rotate(0deg);
+    }
 }
 

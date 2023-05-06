@@ -12,31 +12,38 @@ export class LightMode {
 
         this.current == 'light' ? changeColor(':root','--color1', '#e9e9e9') : changeColor(':root','--color1', '#1b1b1b')
         this.current == 'light' ? changeColor(':root','--color2', '#1b1b1b') : changeColor(':root','--color2', '#e9e9e9')
-        this.current == 'light' ? this.light.firstChild.textContent = 'light_mode' : this.light.firstChild.textContent = 'dark_mode'
+        this.current == 'light' ? this.modeButton.firstChild.textContent = 'light_mode' : this.modeButton.firstChild.textContent = 'dark_mode'
+    }
+
+    animateModeButton(){
+
+        this.modeButton.classList.add('show-mode')
+        this.modeButton.addEventListener('animationend', () => { this.modeButton.classList.remove('show-mode') })
     }
 
     drawModeButton(){
 
         this.modeContainer = createDivElement(this.modeContainer, document.body, 'mode-container')
-        this.light = createDivElement(this.light, this.modeContainer, 'icon', 'dark_mode', 'out')
-        this.light.firstChild.textContent = 'dark_mode'
+        this.modeButton = createDivElement(this.modeButton, this.modeContainer, 'icon', 'dark_mode', 'out')
     }
 
     addModeButtonEvent(){
-        
+
         this.current = this.current == 'light' ? 'dark' : 'light'
         localStorage.setItem('Mode', this.current)
+        this.animateModeButton()
         this.loadColors()
     }
 
     checkModeButtonEvent(){
 
-        this.light.addEventListener('click', () => this.addModeButtonEvent() )
+        this.modeButton.addEventListener('click', () => this.addModeButtonEvent() )
     }
 
     render(){
 
         this.drawModeButton()
+        this.animateModeButton()
         this.loadColors()
         this.checkModeButtonEvent()
     }
