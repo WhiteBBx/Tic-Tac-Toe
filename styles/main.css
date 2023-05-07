@@ -10,8 +10,6 @@
     --gradient1: linear-gradient(45deg, var(--color3) 0%, var(--color4) 54%, var(--color5) 100%);
 
     --shadow1: 0px 0px 10px 2px #0e0e0e;
-
-    --font1: 'Rajdhani';
 }
 
 *{

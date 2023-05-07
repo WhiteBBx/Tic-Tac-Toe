@@ -2,20 +2,12 @@ import { createDivElement } from "./Utils.js"
 
 export class Menu {
 
-    constructor(){
-
-        this.icon = {
-            x: null,
-            o: null
-        }
-    }
-
     drawMenu(){
 
         this.menuContainer = createDivElement(this.menuContainer, document.body, 'menu-container')
-        this.icon.x = createDivElement(this.icon.x, this.menuContainer, 'icon', 'close')
+        this.player.x.icon = createDivElement(this.player.x.icon, this.menuContainer, 'icon', 'close')
         this.resetButton = createDivElement(this.resetButton, this.menuContainer, 'icon', 'rotate_right')
-        this.icon.o = createDivElement(this.icon.o, this.menuContainer, 'icon', 'radio_button_unchecked')
+        this.player.o.icon = createDivElement(this.player.o.icon, this.menuContainer, 'icon', 'radio_button_unchecked')
     }
 
     addResetEvent = () =>{
@@ -31,8 +23,22 @@ export class Menu {
         this.resetButton.addEventListener('animationend', () => { this.resetButton.classList.remove('reset-button') })
     }
 
+    animateIcons(){
+
+        if(this.player.winner.combination.length){
+            this.player.x.icon.classList.remove('current-player')
+            this.player.o.icon.classList.remove('current-player')
+        }
+        else{
+            this.player.current.class == this.player.o.class ? this.player.o.icon.classList.add('current-player') : this.player.x.icon.classList.add('current-player')
+            this.player.current.class == this.player.o.class ? this.player.x.icon.classList.remove('current-player') : this.player.o.icon.classList.remove('current-player')
+        }
+    }
+
     render(){
 
         this.drawMenu()
+        this.checkResetEvents()
+        this.player.current.class == this.player.o.class ? this.player.o.icon.classList.add('current-player') : this.player.x.icon.classList.add('current-player')
     }
 }

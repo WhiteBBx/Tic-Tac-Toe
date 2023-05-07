@@ -3,13 +3,13 @@ import { Animate } from "./Animations.js"
 import { LightMode } from "./LightMode.js"
 import { Menu } from "./Menu.js"
 
-let mode = new LightMode()
-let menu = new Menu()
-let animate = new Animate()
-
 export class Board {
 
     constructor(player){
+
+        this.mode = new LightMode()
+        this.menu = new Menu()
+        this.animate = new Animate()
 
         this.player = { 
             x: {
@@ -29,21 +29,23 @@ export class Board {
                 combination: []
             }
         }
+
+        this.menu.player = this.player
+        this.animate.player = this.player
+
         this.winingCombinations = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ]
     }
 
     drawBoard(){
 
-        mode.render()
-        menu.render()
         this.fieldsContainer = createDivElement(this.fieldsContainer, document.body, 'fields-container')
         for(let i = 0; i < 9; i++){ this.boardField = createDivElement(this.boardField, this.fieldsContainer, 'board-field') }
     }
 
     checkResetEvent(){
 
-        menu.resetButton.addEventListener('click', () => { 
-            menu.addResetEvent()
+        this.menu.resetButton.addEventListener('click', () => { 
+            this.menu.addResetEvent()
             if(this.player.winner.combination.length){
                 this.fieldsContainer.addEventListener('animationiteration', () => {
                     this.fieldsArray.forEach((element) => {
@@ -51,11 +53,11 @@ export class Board {
                             element.firstChild.classList.remove('won-player')
                         }
                     })
-                    setTimeout(() => { window.location.reload() }, animate.hidePlayer(this.fieldsArray))
+                    setTimeout(() => { window.location.reload() }, this.animate.hidePlayer())
                 })
             }
             else{
-                setTimeout(() => { window.location.reload() }, animate.hidePlayer(this.fieldsArray))
+                setTimeout(() => { window.location.reload() }, this.animate.hidePlayer())
             }
         })
     }
@@ -64,6 +66,8 @@ export class Board {
 
         this.fieldsArray = [...document.querySelectorAll('.board-field')]
         this.fieldsArray.forEach((element) => element.addEventListener('click', this.drawPlayer, {once: true}))
+
+        this.animate.fieldsArray = this.fieldsArray
     }
 
     removeBoardEvents(){
@@ -104,12 +108,15 @@ export class Board {
         this.player.current.class = this.player.current.class == this.player.x.class ? this.player.o.class : this.player.x.class
 
         this.checkPlayer()
-        animate.showPlayer(this.player)
-        animate.wonPlayer(this.player, this.fieldsArray)
+        this.menu.animateIcons()
+        this.animate.showPlayer()
+        this.animate.wonPlayer()
     }
 
     render(){
         
+        this.mode.render()
+        this.menu.render()
         this.drawBoard()
         this.checkResetEvent()
         this.checkBoardEvents()
