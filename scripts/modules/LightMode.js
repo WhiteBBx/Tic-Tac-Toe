@@ -29,6 +29,7 @@ export class LightMode {
 
     addModeButtonEvent(){
 
+        document.body.style.transition = 'background 1s ease-in-out'
         this.current = this.current == 'light' ? 'dark' : 'light'
         localStorage.setItem('Mode', this.current)
         this.animateModeButton()

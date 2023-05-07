@@ -25,7 +25,6 @@ body{
     align-items: center;
     justify-content: center;
     flex-direction: column;
-    transition: background 1s ease-in-out;
 }
 
 .material-icons, .material-symbols-outlined{
