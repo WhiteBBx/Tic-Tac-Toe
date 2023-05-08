@@ -17,6 +17,18 @@ export class Animate {
             }
         }
     }
+
+    currentPlayer(){
+
+        if(this.player.winner.combination.length){
+            this.player.x.icon.classList.remove('current-player')
+            this.player.o.icon.classList.remove('current-player')
+        }
+        else{
+            this.player.current.class == this.player.o.class ? this.player.o.icon.classList.add('current-player') : this.player.x.icon.classList.add('current-player')
+            this.player.current.class == this.player.o.class ? this.player.x.icon.classList.remove('current-player') : this.player.o.icon.classList.remove('current-player')
+        }
+    }
     
     hidePlayer(){
     

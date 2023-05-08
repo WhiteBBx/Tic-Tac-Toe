@@ -31,6 +31,7 @@ export class Board {
         }
 
         this.menu.player = this.player
+        this.menu.animate = this.animate
         this.animate.player = this.player
 
         this.winingCombinations = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ]
@@ -42,41 +43,19 @@ export class Board {
         for(let i = 0; i < 9; i++){ this.boardField = createDivElement(this.boardField, this.fieldsContainer, 'board-field') }
     }
 
-    checkResetEvent(){
-
-        this.menu.resetButton.addEventListener('click', () => { 
-            this.menu.addResetEvent()
-            if(this.player.winner.combination.length){
-                this.fieldsContainer.addEventListener('animationiteration', () => {
-                    this.fieldsArray.forEach((element) => {
-                        if(element.hasChildNodes()){
-                            element.firstChild.classList.remove('won-player')
-                        }
-                    })
-                    setTimeout(() => { window.location.reload() }, this.animate.hidePlayer())
-                })
-            }
-            else{
-                setTimeout(() => { window.location.reload() }, this.animate.hidePlayer())
-            }
-        })
-    }
-
     checkBoardEvents(){
 
         this.fieldsArray = [...document.querySelectorAll('.board-field')]
-        this.fieldsArray.forEach((element) => element.addEventListener('click', this.drawPlayer, {once: true}))
+        this.fieldsContainer.addEventListener('click', this.drawPlayer)
 
         this.animate.fieldsArray = this.fieldsArray
+        this.menu.fieldsArray = this.fieldsArray
+        this.menu.fieldsContainer = this.fieldsContainer
     }
 
     removeBoardEvents(){
 
-        this.fieldsArray.forEach((element) => {
-            if(element.hasChildNodes() == false){
-                element.removeEventListener('click', this.drawPlayer, {once: true})
-            }
-        })
+        this.fieldsContainer.removeEventListener('click', this.drawPlayer)
     }
 
     checkPlayer(){
@@ -102,15 +81,18 @@ export class Board {
 
     drawPlayer = (e) =>{
 
-        this.fieldIndex = this.fieldsArray.indexOf(e.target)
-        this.player.current.field = createDivElement(this.player.current.field, this.fieldsArray[this.fieldIndex], this.player.current.class)
-        this.player.current.class == this.player.x.class ? this.player.x.pos.push(this.fieldIndex) : this.player.o.pos.push(this.fieldIndex)
-        this.player.current.class = this.player.current.class == this.player.x.class ? this.player.o.class : this.player.x.class
+        if(!e.target.hasChildNodes()){
 
-        this.checkPlayer()
-        this.menu.animateIcons()
-        this.animate.showPlayer()
-        this.animate.wonPlayer()
+            this.fieldIndex = this.fieldsArray.indexOf(e.target)
+            this.player.current.field = createDivElement(this.player.current.field, this.fieldsArray[this.fieldIndex], this.player.current.class)
+            this.player.current.class == this.player.x.class ? this.player.x.pos.push(this.fieldIndex) : this.player.o.pos.push(this.fieldIndex)
+            this.player.current.class = this.player.current.class == this.player.x.class ? this.player.o.class : this.player.x.class
+
+            this.checkPlayer()
+            this.animate.currentPlayer()
+            this.animate.showPlayer()
+            this.animate.wonPlayer()
+        }
     }
 
     render(){
@@ -118,7 +100,6 @@ export class Board {
         this.mode.render()
         this.menu.render()
         this.drawBoard()
-        this.checkResetEvent()
         this.checkBoardEvents()
     }
 }
