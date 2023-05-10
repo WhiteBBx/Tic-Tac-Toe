@@ -2,6 +2,7 @@ import { createDivElement } from "./Utils.js"
 import { Animate } from "./Animations.js"
 import { LightMode } from "./LightMode.js"
 import { Menu } from "./Menu.js"
+import { History } from "./History.js"
 
 export class Board {
 
@@ -9,6 +10,7 @@ export class Board {
 
         this.mode = new LightMode()
         this.menu = new Menu()
+        this.history = new History()
         this.animate = new Animate()
 
         this.player = { 
@@ -30,6 +32,8 @@ export class Board {
             }
         }
 
+        this.history.player = this.player
+        this.history.animate = this.animate
         this.menu.player = this.player
         this.menu.animate = this.animate
         this.animate.player = this.player
@@ -48,9 +52,11 @@ export class Board {
         this.fieldsArray = [...document.querySelectorAll('.board-field')]
         this.fieldsContainer.addEventListener('click', this.drawPlayer)
 
-        this.animate.fieldsArray = this.fieldsArray
+        this.history.fieldsArray = this.fieldsArray
         this.menu.fieldsArray = this.fieldsArray
+        this.animate.fieldsArray = this.fieldsArray
         this.menu.fieldsContainer = this.fieldsContainer
+        this.history.fieldsContainer = this.fieldsContainer
     }
 
     removeBoardEvents(){
@@ -70,7 +76,7 @@ export class Board {
                         player.includes(this.winingCombinations[i][2])){
 
                             this.player.winner.combination = [this.winingCombinations[i][0], this.winingCombinations[i][1], this.winingCombinations[i][2]]
-                            this.player.winner.is = this.player.current.class
+                            this.player.current.class == this.player.x.class ? this.player.winner.is = this.player.o.class : this.player.winner.is = this.player.x.class
                             this.removeBoardEvents()
                     }
                 }
@@ -100,6 +106,7 @@ export class Board {
         this.mode.render()
         this.menu.render()
         this.drawBoard()
+        this.history.render()
         this.checkBoardEvents()
     }
 }

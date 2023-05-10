@@ -31,15 +31,6 @@ body{
     font-size: 40px;
 }
 
-.menu-container{
-    display: flex;
-    width: 100vw;
-    height: 100px;
-    align-items: center;
-    justify-content: center; 
-    gap: 150px;
-}
-
 .mode-container{
     display: flex;
     width: 100vw;
@@ -52,6 +43,24 @@ body{
 .mode-container .icon:hover{
     color: var(--color4);
     transition: color 1s ease-in-out;
+}
+
+.menu-container{
+    display: flex;
+    width: 100vw;
+    height: 100px;
+    align-items: center;
+    justify-content: center; 
+    gap: 150px;
+}
+
+.history-container{
+    display: flex;
+    width: 100vw;
+    height: 100px;
+    align-items: center;
+    justify-content: center; 
+    gap: 150px;
 }
 
 .icon{

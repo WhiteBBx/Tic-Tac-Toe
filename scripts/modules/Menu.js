@@ -25,12 +25,19 @@ export class Menu {
                         element.firstChild.classList.remove('won-player')
                     }
                 })
+                this.toHistory()
                 setTimeout(() => { window.location.reload() }, this.animate.hidePlayer())
             })
         }
         else{
+            this.toHistory()
             setTimeout(() => { window.location.reload() }, this.animate.hidePlayer())
         }
+    }
+
+    toHistory(){
+
+        localStorage.setItem('History', JSON.stringify(this.player))
     }
 
     checkResetEvents(){
