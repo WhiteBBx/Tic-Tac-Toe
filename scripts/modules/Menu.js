@@ -18,6 +18,8 @@ export class Menu {
         this.resetButton.classList.add('reset-button')
         this.resetButton.classList.add('active')
 
+        this.writeHistory()
+
         if(this.player.winner.combination.length){
             this.fieldsContainer.addEventListener('animationiteration', () => {
                 this.fieldsArray.forEach((element) => {
@@ -25,26 +27,39 @@ export class Menu {
                         element.firstChild.classList.remove('won-player')
                     }
                 })
-                this.toHistory()
                 setTimeout(() => { window.location.reload() }, this.animate.hidePlayer())
             })
         }
         else{
-            this.toHistory()
             setTimeout(() => { window.location.reload() }, this.animate.hidePlayer())
         }
     }
 
-    toHistory(){
+    writeHistory(){
+        
+        this.history = JSON.parse(localStorage.getItem('History'))   
+        if(this.player.winner.is){
+            if(this.history){
+                if(this.history.length >= 10){
+                    this.history.pop()
+                    this.history.unshift(this.player)
+                }
+                else this.history.unshift(this.player)
+            }
+            else{
+                this.history = []
+                this.history.unshift(this.player)
+            }
+        }
 
-        localStorage.setItem('History', JSON.stringify(this.player))
+        localStorage.setItem('History', JSON.stringify(this.history))
     }
 
     checkResetEvents(){
 
         this.resetButton.addEventListener('mouseover', () => { this.resetButton.classList.add('reset-button') })
         this.resetButton.addEventListener('animationend', () => { this.resetButton.classList.remove('reset-button') })
-        this.resetButton.addEventListener('click', this.addResetEvent)
+        this.resetButton.addEventListener('click', this.addResetEvent, { once: true })
     }
 
     render(){

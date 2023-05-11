@@ -56,11 +56,10 @@ body{
 
 .history-container{
     display: flex;
-    width: 100vw;
+    width: 85vw;
     height: 100px;
     align-items: center;
-    justify-content: center; 
-    gap: 150px;
+    justify-content: center;
 }
 
 .icon{
@@ -177,6 +176,10 @@ body{
         gap: 18vw;
     }
 
+    .history-container{
+        height: 14vw;
+    }
+
     .mode-container{
         height: 14vw;
         justify-content: center;
@@ -188,7 +191,7 @@ body{
         height: 10vw;
     }
 
-    .menu-container .material-icons, .mode-container .material-symbols-outlined{
+    .material-icons, .material-symbols-outlined{
         font-size: 5.5vw;
     }
 }

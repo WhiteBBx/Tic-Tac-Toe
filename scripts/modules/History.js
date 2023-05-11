@@ -4,45 +4,38 @@ export class History{
 
     getFromLocal(){
 
-        this.history = localStorage.getItem('History')
-        this.history = JSON.parse(this.history)
+        this.history = JSON.parse(localStorage.getItem('History'))
     }
 
     drawHistory(){
 
+        this.historyIconArr = []
         this.historyContainer = createDivElement(this.historyContainer, document.body, 'history-container')
-        this.history.winner.is == 'player-o' ? this.icon = 'radio_button_unchecked' : this.icon = 'close'
-        this.historyIcon = createDivElement(this.historyIcon, this.historyContainer, 'icon', this.icon)
+        for(let i = 0; i < this.history.length; i++){
+
+            this.history[i].winner.is == 'player-o' ? this.icon = 'radio_button_unchecked' : this.icon = 'close'
+            this.historyIcon = createDivElement(this.historyIcon, this.historyContainer, 'icon', this.icon)
+            this.historyIconArr.push(this.historyIcon)
+        }
     }
 
-    addEvent = () => {
+    addEvent = (e) => {
 
-        this.state = this.state == 'show' ? 'hidde' : 'show'
-
-        if(this.state == 'show'){
-
-            for(let i = 0; i < this.history.x.pos.length; i++){
-                this.history.current.field = createDivElement(this.history.current.field, this.fieldsArray[this.history.x.pos[i]], this.history.x.class)
-                this.history.current.field.classList.add('show-player')
-            }
-    
-            for(let i = 0; i < this.history.o.pos.length; i++){
-                this.history.current.field = createDivElement(this.history.current.field, this.fieldsArray[this.history.o.pos[i]], this.history.o.class)
-                this.history.current.field.classList.add('show-player')
-            }
-        }
+        console.log(this.historyIconArr.indexOf(e.target))
     }
 
     checkEvent(){
 
-        this.historyIcon.addEventListener('click', this.addEvent)
+        this.historyContainer.addEventListener('click', this.addEvent)
     }
 
     render(){
-
+        
         this.getFromLocal()
-        this.drawHistory()
-        this.checkEvent()
+        if(this.history){
+            this.drawHistory()
+            this.checkEvent()
+        }
     }
 }
 
