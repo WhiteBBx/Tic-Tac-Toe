@@ -23,8 +23,8 @@ export class LightMode {
 
     drawModeButton(){
 
-        this.modeContainer = createDivElement(this.modeContainer, document.body, 'mode-container')
-        this.modeButton = createDivElement(this.modeButton, this.modeContainer, 'icon', 'dark_mode', 'out')
+        this.modeContainer = createDivElement('after',this.modeContainer, document.body, 'mode-container')
+        this.modeButton = createDivElement('after',this.modeButton, this.modeContainer, 'icon', 'dark_mode', 'out')
     }
 
     addModeButtonEvent(){

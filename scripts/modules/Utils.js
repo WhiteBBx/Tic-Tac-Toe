@@ -1,10 +1,11 @@
-export function createDivElement(elementName, parentName, className, icon, out){
+export function createDivElement(insert ,elementName, parentName, className, icon, out){
     
     function createDiv(){
 
         elementName = document.createElement('div')
         elementName.classList.add(className)
-        parentName.appendChild(elementName)
+        if(insert == 'after') parentName.append(elementName)
+        else parentName.prepend(elementName)
     }
 
     function createIco(){
