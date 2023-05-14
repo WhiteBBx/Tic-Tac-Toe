@@ -14,6 +14,8 @@ export class Menu {
 
     addResetEvent = () =>{
 
+        if(this.history.currentItem != null) this.player = this.history.currentItem
+
         this.resetButton.style.animation = 'reset-button 0.5s linear infinite'
         this.resetButton.classList.add('reset-button')
         this.resetButton.classList.add('active')
@@ -23,6 +25,7 @@ export class Menu {
                 this.fieldsArray.forEach((element) => {
                     if(element.hasChildNodes()){
                         element.firstChild.classList.remove('won-player')
+                        element.firstChild.classList.remove('show-player')
                     }
                 })
                 setTimeout(() => window.location.reload(), this.animate.hidePlayer())
@@ -41,7 +44,7 @@ export class Menu {
     }
 
     render(){
-
+        
         this.drawMenu()
         this.checkResetEvents()
     }

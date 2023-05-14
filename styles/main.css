@@ -40,9 +40,9 @@ body{
     justify-content: end; 
 }
 
-.mode-container .icon:hover{
+.mode-container .icon:hover, .history-container .icon:hover, .menu-container .reset-button:hover{
     color: var(--color4);
-    transition: color 1s ease-in-out;
+    transition: color 0.4s ease-in-out;
 }
 
 .menu-container{

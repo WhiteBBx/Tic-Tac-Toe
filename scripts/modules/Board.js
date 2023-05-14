@@ -32,34 +32,14 @@ export class Board {
             }
         }
 
-        this.historyArr = []
         this.history.player = this.player
         this.history.animate = this.animate
         this.menu.player = this.player
         this.menu.animate = this.animate
+        this.menu.history = this.history
         this.animate.player = this.player
 
         this.winingCombinations = [ [0,1,2], [3,4,5], [6,7,8], [0,3,6], [1,4,7], [2,5,8], [0,4,8], [2,4,6] ]
-    }
-
-    writeHistory(){
-        
-        this.historyArr = JSON.parse(localStorage.getItem('History'))   
-        if(this.player.winner.is){
-            if(this.historyArr){
-                if(this.historyArr.length >= 10){
-                    this.historyArr.pop()
-                    this.historyArr.unshift(this.player)
-                }
-                else this.historyArr.unshift(this.player)
-            }
-            else{
-                this.historyArr = []
-                this.historyArr.unshift(this.player)
-            }
-        }
-
-        localStorage.setItem('History', JSON.stringify(this.historyArr))
     }
 
     drawBoard(){
@@ -99,7 +79,7 @@ export class Board {
                             this.player.winner.combination = [this.winingCombinations[i][0], this.winingCombinations[i][1], this.winingCombinations[i][2]]
                             this.player.current.class == this.player.x.class ? this.player.winner.is = this.player.o.class : this.player.winner.is = this.player.x.class
                             this.removeBoardEvents()
-                            this.writeHistory()
+                            this.history.writeHistory()
                             this.history.drawItem()
                     }
                 }
@@ -110,8 +90,8 @@ export class Board {
 
     drawPlayer = (e) =>{
 
-        if(!e.target.hasChildNodes()){
-
+        if(!e.target.hasChildNodes() && !this.history.currentItem){
+            
             this.fieldIndex = this.fieldsArray.indexOf(e.target)
             this.player.current.field = createDivElement('after',this.player.current.field, this.fieldsArray[this.fieldIndex], this.player.current.class)
             this.player.current.class == this.player.x.class ? this.player.x.pos.push(this.fieldIndex) : this.player.o.pos.push(this.fieldIndex)
