@@ -75,9 +75,6 @@ export class History{
     addEvent = (e) => {
 
         if(e.target !== e.currentTarget){
-
-            console.log(this.history)
-            console.log(this.historyIconArr)
             
             this.previusItem = this.currentItem
             this.currentItem = this.historyIconArr.indexOf(e.target)
