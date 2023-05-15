@@ -14,7 +14,7 @@ export class Menu {
 
     addResetEvent = () =>{
 
-        if(this.history.currentItem != null) this.player = this.history.currentItem
+        if(this.history.selected != null) this.player = this.history.selected
 
         this.resetButton.style.animation = 'reset-button 0.5s linear infinite'
         this.resetButton.classList.add('reset-button')

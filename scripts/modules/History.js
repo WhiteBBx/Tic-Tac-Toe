@@ -6,7 +6,9 @@ export class History{
 
         this.historyIconArr = []
         this.historyArr = []
-        this.currentItem 
+        this.currentItem
+        this.previusItem 
+        this.selected
     }
 
     writeHistory(){
@@ -45,18 +47,24 @@ export class History{
     }
 
     drawItem(i){
-
+        
         if(i === undefined){
+            this.readHistory()
             this.player.winner.is == 'player-o' ? this.icon = 'radio_button_unchecked' : this.icon = 'close'
             this.historyIcon = createDivElement('before', this.historyIcon, this.historyContainer, 'icon', this.icon)
+            this.historyIconArr.unshift(this.historyIcon)
         }
         else{
             this.history[i].winner.is == 'player-o' ? this.icon = 'radio_button_unchecked' : this.icon = 'close'
             this.historyIcon = createDivElement('after', this.historyIcon, this.historyContainer, 'icon', this.icon)
+            this.historyIconArr.push(this.historyIcon)
         }
 
-        if(this.historyIconArr.length >= 10) this.historyContainer.removeChild(this.historyContainer.lastChild)
-        this.historyIconArr.push(this.historyIcon)
+        if(this.historyIconArr.length >= 10){
+
+            this.historyContainer.removeChild(this.historyContainer.lastChild)
+            this.historyIconArr.pop()
+        }
     }
 
     checkEvents(){
@@ -68,45 +76,46 @@ export class History{
 
         if(e.target !== e.currentTarget){
 
-            this.historyIconArr.forEach((element) => { element.classList.remove('active') })
-            this.historyIconArr[this.historyIconArr.indexOf(e.target)].classList.add('active')
-
-            this.fieldsArray.forEach((element) => {
-                if(element.hasChildNodes()){
-                    element.removeChild(element.firstChild)
-                }
-            })
+            console.log(this.history)
+            console.log(this.historyIconArr)
             
-            for(let i = 0; i < this.history[this.historyIconArr.indexOf(e.target)].x.pos.length; i++){
-    
-                this.player.current.field = createDivElement('after', this.player.current.field, this.fieldsArray[this.history[this.historyIconArr.indexOf(e.target)].x.pos[i]], this.player.x.class)
-                this.player.current.field.classList.add('show-player')
-            }
-    
-            for(let i = 0; i < this.history[this.historyIconArr.indexOf(e.target)].o.pos.length; i++){
-    
-                this.player.current.field = createDivElement('after', this.player.current.field, this.fieldsArray[this.history[this.historyIconArr.indexOf(e.target)].o.pos[i]], this.player.o.class)
-                this.player.current.field.classList.add('show-player')
-            }
+            this.previusItem = this.currentItem
+            this.currentItem = this.historyIconArr.indexOf(e.target)
 
-            /*
-            this.fieldsContainer.addEventListener('animationend', () => {
+            if(this.currentItem != this.previusItem){
+
+                this.historyIconArr.forEach((element) => { element.classList.remove('active') })
+                this.historyIconArr[this.historyIconArr.indexOf(e.target)].classList.add('active')
+    
+                this.fieldsArray.forEach((element) => {
+                    if(element.hasChildNodes()){
+                        element.removeChild(element.firstChild)
+                    }
+                })
                 
+                for(let i = 0; i < this.history[this.historyIconArr.indexOf(e.target)].x.pos.length; i++){
+        
+                    this.player.current.field = createDivElement('after', this.player.current.field, this.fieldsArray[this.history[this.historyIconArr.indexOf(e.target)].x.pos[i]], this.player.x.class)
+                    this.player.current.field.classList.add('show-player')
+                }
+        
+                for(let i = 0; i < this.history[this.historyIconArr.indexOf(e.target)].o.pos.length; i++){
+        
+                    this.player.current.field = createDivElement('after', this.player.current.field, this.fieldsArray[this.history[this.historyIconArr.indexOf(e.target)].o.pos[i]], this.player.o.class)
+                    this.player.current.field.classList.add('show-player')
+                }
+                    
                 for(let i = 0; i < this.history[this.historyIconArr.indexOf(e.target)].winner.combination.length; i++){
                     
-                    this.fieldsArray[this.history[this.historyIconArr.indexOf(e.target)].winner.combination[i]].firstChild.classList.replace('show-player', 'won-player')
+                    this.fieldsArray[this.history[this.historyIconArr.indexOf(e.target)].winner.combination[i]].firstChild.addEventListener('animationend', (a) => {
+                        
+                        this.fieldsArray[this.history[this.historyIconArr.indexOf(e.target)].winner.combination[i]].firstChild.classList.replace('show-player', 'won-player')
+                    })
                 }
-            })
-            
-            this.fieldsArray.forEach((element) => {
-                if(!element.hasChildNodes()){
-                    element.replaceWith(element.cloneNode(true))
-                }
-            })
-            */
-
-            this.currentItem = this.history[this.historyIconArr.indexOf(e.target)]
+            }
         }
+
+        this.selected = this.history[this.historyIconArr.indexOf(e.target)]
     }
 
     render(){

@@ -81,6 +81,7 @@ export class Board {
                             this.removeBoardEvents()
                             this.history.writeHistory()
                             this.history.drawItem()
+                            console.log(this.history.historyIconArr)
                     }
                 }
             }
@@ -90,7 +91,7 @@ export class Board {
 
     drawPlayer = (e) =>{
 
-        if(!e.target.hasChildNodes() && !this.history.currentItem){
+        if(!e.target.hasChildNodes() && !this.history.selected){
             
             this.fieldIndex = this.fieldsArray.indexOf(e.target)
             this.player.current.field = createDivElement('after',this.player.current.field, this.fieldsArray[this.fieldIndex], this.player.current.class)
